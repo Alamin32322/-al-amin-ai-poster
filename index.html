@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Al Amin AI Poster</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;padding:20px;
+font-family:Arial,sans-serif;
+background:#101827;color:white;
+}
+.container{max-width:600px;margin:auto}
+h1{text-align:center;color:#55dfa0}
+.sub{text-align:center;color:#bbb}
+.card{
+background:#1e293b;padding:18px;
+border-radius:15px;margin:15px 0;
+}
+button,select{
+width:100%;padding:14px;
+border:0;border-radius:10px;
+font-size:16px;margin-top:10px;
+}
+button{background:#20b879;color:white;font-weight:bold}
+select{background:#334155;color:white}
+textarea{
+width:100%;height:180px;
+padding:14px;border-radius:10px;
+background:#0f172a;color:white;
+font-size:16px;margin-top:12px;
+}
+.small{color:#aaa;font-size:13px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🤖 Al Amin AI Poster</h1>
+<p class="sub">তোমার ব্যক্তিগত Facebook পোস্ট সহকারী</p>
+
+<div class="card">
+<h3>📅 আজকের পোস্ট</h3>
+<p>🌅 সকাল ৭টা</p>
+<p>☀️ দুপুর ১টা</p>
+<p>🌙 রাত ৮টা</p>
+<p class="small">সময়গুলো বাংলাদেশের সময় অনুযায়ী।</p>
+</div>
+
+<div class="card">
+<h3>✍️ পোস্ট তৈরি করো</h3>
+
+<select id="type">
+<option value="all">সব ধরনের পোস্ট</option>
+<option value="islamic">ইসলামিক পোস্ট</option>
+<option value="morning">শুভ সকাল</option>
+<option value="emotional">আবেগপূর্ণ পোস্ট</option>
+<option value="motivational">অনুপ্রেরণামূলক পোস্ট</option>
+<option value="life">জীবনবোধ</option>
+</select>
+
+<button onclick="generate()">✨ নতুন পোস্ট তৈরি করো</button>
+
+<textarea id="post" placeholder="তোমার পোস্ট এখানে তৈরি হবে..."></textarea>
+
+<button onclick="copyPost()">📋 পোস্ট কপি করো</button>
+</div>
+
+<div class="card">
+<h3>📚 পোস্টের ইতিহাস</h3>
+<div id="history">এখনো কোনো পোস্ট তৈরি হয়নি।</div>
+</div>
+
+<p class="small" style="text-align:center">
+Al Amin Personal AI Poster © 2026
+</p>
+
+</div>
+
+<script>
+const posts={
+islamic:[
+"জীবনের সবচেয়ে বড় সফলতা হলো আল্লাহর সন্তুষ্টি অর্জন করা। আল্লাহ আমাদের সবাইকে নেক আমল করার তাওফিক দান করুন। আমিন। 🤲",
+"দুনিয়ার ব্যস্ততায় আখিরাতের কথা ভুলে যেও না। প্রতিটি দিনই আমাদের জন্য নতুন সুযোগ।",
+"নামাজ শুধু দায়িত্ব নয়, এটি মুমিনের প্রশান্তি। আল্লাহ আমাদের পাঁচ ওয়াক্ত নামাজের পাবন্দি করুন। আমিন।"
+],
+morning:[
+"আলহামদুলিল্লাহ! নতুন একটি সকাল, নতুন একটি সুযোগ। সবার দিনটি সুন্দর ও বরকতময় হোক। 🌸",
+"শুভ সকাল! হাসিমুখে দিন শুরু করুন। মহান আল্লাহর ওপর ভরসা রাখুন। ❤️",
+"সকাল মানেই নতুন আশা, নতুন স্বপ্ন। আলহামদুলিল্লাহ প্রতিটি নিয়ামতের জন্য।"
+],
+emotional:[
+"কিছু মানুষ জীবনে আসে, কিছু স্মৃতি রেখে যায়। সময় চলে যায়, কিন্তু স্মৃতিগুলো থেকে যায়। ❤️",
+"সব হাসির পেছনে আনন্দ থাকে না, কিছু হাসি শুধু অন্যকে ভালো রাখার জন্য।",
+"জীবনে সবাই পাশে থাকবে না, তাই নিজের সাহসটুকু ধরে রাখতে শিখুন।"
+],
+motivational:[
+"স্বপ্ন পূরণ করতে হলে ধৈর্য ধরতে হয়। আজকের ছোট্ট প্রচেষ্টাই আগামী দিনের সফলতা।",
+"হাল ছেড়ে দেওয়া কোনো সমাধান নয়। চেষ্টা চালিয়ে যান, ইনশাআল্লাহ ভালো কিছু হবে।",
+"নিজেকে প্রতিদিন একটু একটু করে উন্নত করুন। সফলতা একদিন আসবেই।"
+],
+life:[
+"জীবন খুব ছোট। তাই মানুষের সঙ্গে ভালো ব্যবহার করুন, কাউকে কষ্ট দিয়ে নয়, ভালোবাসা দিয়ে জয় করুন।",
+"টাকা দিয়ে অনেক কিছু কেনা যায়, কিন্তু মানুষের বিশ্বাস ও ভালোবাসা কেনা যায় না।",
+"সময় মানুষকে অনেক কিছু শেখায়। তাই প্রতিটি অভিজ্ঞতা থেকে শিক্ষা নিন।"
+]
+};
+
+function generate(){
+const type=document.getElementById("type").value;
+let category=type;
+if(type==="all"){
+const keys=Object.keys(posts);
+category=keys[Math.floor(Math.random()*keys.length)];
+}
+const list=posts[category];
+const text=list[Math.floor(Math.random()*list.length)];
+const hashtags="\n\n#AlAmin #বাংলা_পোস্ট #জীবনের_কথা";
+document.getElementById("post").value=text+hashtags;
+saveHistory(text);
+}
+
+function copyPost(){
+const box=document.getElementById("post");
+if(!box.value){alert("আগে পোস্ট তৈরি করুন");return;}
+box.select();
+navigator.clipboard.writeText(box.value)
+.then(()=>alert("পোস্ট কপি হয়েছে!"))
+.catch(()=>alert("পোস্টটি সিলেক্ট করে Copy করুন।"));
+}
+
+function saveHistory(text){
+let history=JSON.parse(localStorage.getItem("posts")||"[]");
+history.unshift(text);
+history=history.slice(0,20);
+localStorage.setItem("posts",JSON.stringify(history));
+showHistory();
+}
+
+function showHistory(){
+const history=JSON.parse(localStorage.getItem("posts")||"[]");
+document.getElementById("history").innerHTML=
+history.length?history.map(x=>"<p>"+x+"</p><hr>").join(""):"এখনো কোনো পোস্ট তৈরি হয়নি।";
+}
+showHistory();
+</script>
+</body>
+</html>
