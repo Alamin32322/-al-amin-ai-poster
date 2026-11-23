@@ -2,148 +2,429 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Al Amin AI Poster</title>
+
 <style>
 *{box-sizing:border-box}
 body{
-margin:0;padding:20px;
+margin:0;
 font-family:Arial,sans-serif;
-background:#101827;color:white;
+background:#071827;
+color:white;
+padding:15px;
 }
-.container{max-width:600px;margin:auto}
-h1{text-align:center;color:#55dfa0}
-.sub{text-align:center;color:#bbb}
+.container{max-width:650px;margin:auto}
+header{
+text-align:center;
+padding:25px 10px;
+background:#123c45;
+border
+  -radius:18px;
+}
+header h1{color:#55e6aa}
 .card{
-background:#1e293b;padding:18px;
-border-radius:15px;margin:15px 0;
+background:#142b3d;
+padding:18px;
+margin-top:16px;
+border-radius:16px;
 }
 button,select{
-width:100%;padding:14px;
-border:0;border-radius:10px;
-font-size:16px;margin-top:10px;
+width:100%;
+padding:14px;
+border:0;
+border-radius:10px;
+margin-top:10px;
+font-size:16px;
 }
-button{background:#20b879;color:white;font-weight:bold}
-select{background:#334155;color:white}
+button{
+background:#12b981;
+color:#fff;
+font-weight:bold;
+}
+button:active{opacity:.7}
+select{
+background:#263e50;
+color:white;
+}
 textarea{
-width:100%;height:180px;
-padding:14px;border-radius:10px;
-background:#0f172a;color:white;
-font-size:16px;margin-top:12px;
+width:100%;
+height:180px;
+padding:13px;
+margin-top:12px;
+border-radius:10px;
+background:#071827;
+color:white;
+font-size:16px;
 }
-.small{color:#aaa;font-size:13px}
+.time{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+}
+.time div{
+background:#214354;
+padding:13px 4px;
+text-align:center;
+border-radius:10px;
+font-size:13px;
+}
+.history{
+padding:10px;
+background:#20394b;
+margin-top:10px;
+border-radius:10px;
+}
+small{color:#a9c5d1}
 </style>
 </head>
+
 <body>
 <div class="container">
 
+<header>
 <h1>🤖 Al Amin AI Poster</h1>
-<p class="sub">তোমার ব্যক্তিগত Facebook পোস্ট সহকারী</p>
+<p>তোমার ব্যক্তিগত পোস্ট সহকারী</p>
+<small>প্রতিদিন নতুন পোস্ট • সুন্দর ক্যাপশন</small>
+</header>
 
 <div class="card">
-<h3>📅 আজকের পোস্ট</h3>
-<p>🌅 সকাল ৭টা</p>
-<p>☀️ দুপুর ১টা</p>
-<p>🌙 রাত ৮টা</p>
-<p class="small">সময়গুলো বাংলাদেশের সময় অনুযায়ী।</p>
+<h3>📅 প্রতিদিনের পোস্ট</h3>
+<div class="time">
+<div>🌅<br>সকাল<br>৭:০০</div>
+<div>☀️<br>দুপুর<br>১:০০</div>
+<div>🌙<br>রাত<br>৮:০০</div>
+</div>
 </div>
 
 <div class="card">
-<h3>✍️ পোস্ট তৈরি করো</h3>
+<h3>✍️ নতুন পোস্ট তৈরি করো</h3>
 
-<select id="type">
+<select id="category">
 <option value="all">সব ধরনের পোস্ট</option>
-<option value="islamic">ইসলামিক পোস্ট</option>
+<option value="islam">ইসলামিক পোস্ট</option>
 <option value="morning">শুভ সকাল</option>
-<option value="emotional">আবেগপূর্ণ পোস্ট</option>
-<option value="motivational">অনুপ্রেরণামূলক পোস্ট</option>
+<option value="emotion">আবেগপূর্ণ পোস্ট</option>
+<option value="motivation">অনুপ্রেরণামূলক</option>
 <option value="life">জীবনবোধ</option>
+<option value="afternoon">শুভ দুপুর</option>
+<option value="night">শুভ রাত্রি</option>
 </select>
 
-<button onclick="generate()">✨ নতুন পোস্ট তৈরি করো</button>
+<button onclick="makePost()">✨ নতুন পোস্ট তৈরি করো</button>
 
-<textarea id="post" placeholder="তোমার পোস্ট এখানে তৈরি হবে..."></textarea>
+<textarea id="post" placeholder="তোমার পোস্ট এখানে আসবে..."></textarea>
 
 <button onclick="copyPost()">📋 পোস্ট কপি করো</button>
+<button onclick="makeImage()">🖼️ পোস্টের ছবি তৈরি করো</button>
+<button onclick="downloadImage()">⬇️ ছবি ডাউনলোড করো</button>
+
+<canvas id="canvas" width="1080" height="1080"
+style="width:100%;margin-top:12px;border-radius:12px;display:none"></canvas>
+
 </div>
 
 <div class="card">
 <h3>📚 পোস্টের ইতিহাস</h3>
 <div id="history">এখনো কোনো পোস্ট তৈরি হয়নি।</div>
+<button onclick="clearHistory()">🗑️ ইতিহাস মুছুন</button>
 </div>
 
-<p class="small" style="text-align:center">
-Al Amin Personal AI Poster © 2026
-</p>
+<div class="card">
+<h3>⏰ পোস্টের সময়ের রিমাইন্ডার</h3>
+<p>সকাল ৭টা, দুপুর ১টা ও রাত ৮টা।</p>
+<button onclick="enableReminder()">🔔 রিমাইন্ডার চালু করো</button>
+<small>রিমাইন্ডার পেতে ওয়েবসাইট খোলা রাখতে হবে।</small>
+</div>
+
+<footer style="text-align:center;padding:25px">
+<small>Al Amin Personal AI Poster © 2026</small>
+</footer>
 
 </div>
 
 <script>
-const posts={
-islamic:[
-"জীবনের সবচেয়ে বড় সফলতা হলো আল্লাহর সন্তুষ্টি অর্জন করা। আল্লাহ আমাদের সবাইকে নেক আমল করার তাওফিক দান করুন। আমিন। 🤲",
-"দুনিয়ার ব্যস্ততায় আখিরাতের কথা ভুলে যেও না। প্রতিটি দিনই আমাদের জন্য নতুন সুযোগ।",
-"নামাজ শুধু দায়িত্ব নয়, এটি মুমিনের প্রশান্তি। আল্লাহ আমাদের পাঁচ ওয়াক্ত নামাজের পাবন্দি করুন। আমিন।"
+
+const data={
+
+islam:[
+"আলহামদুলিল্লাহ! প্রতিটি সকাল আমাদের জন্য আল্লাহর পক্ষ থেকে নতুন একটি নিয়ামত। আল্লাহ আমাদের জীবনকে বরকতময় করুন। আমিন। 🤲",
+"দুনিয়ার জীবনে যত ব্যস্ততাই থাকুক, আল্লাহর স্মরণ কখনো ভুলে যেও না।",
+"নামাজ মানুষের জীবনে প্রশান্তি নিয়ে আসে। আল্লাহ আমাদের সবাইকে পাঁচ ওয়াক্ত নামাজ আদায়ের তাওফিক দিন।",
+"মানুষের কাছে নয়, নিজের প্রয়োজনগুলো আল্লাহর কাছে চাও। নিশ্চয়ই তিনি সবকিছু শোনেন।",
+"জীবনের প্রকৃত সফলতা সম্পদে নয়, আল্লাহর সন্তুষ্টি অর্জনে।"
 ],
+
 morning:[
-"আলহামদুলিল্লাহ! নতুন একটি সকাল, নতুন একটি সুযোগ। সবার দিনটি সুন্দর ও বরকতময় হোক। 🌸",
-"শুভ সকাল! হাসিমুখে দিন শুরু করুন। মহান আল্লাহর ওপর ভরসা রাখুন। ❤️",
-"সকাল মানেই নতুন আশা, নতুন স্বপ্ন। আলহামদুলিল্লাহ প্রতিটি নিয়ামতের জন্য।"
+"আলহামদুলিল্লাহ! নতুন একটি সকাল, নতুন একটি আশা। সবার দিনটি সুন্দর ও বরকতময় হোক। 🌸",
+"শুভ সকাল! হাসিমুখে দিন শুরু হোক, ভালো কাজে ভরে উঠুক প্রতিটি মুহূর্ত।",
+"সকালের সুন্দর আলো মনে করিয়ে দেয়, প্রতিটি দিনই নতুন করে শুরু করার সুযোগ।",
+"নতুন দিনের নতুন স্বপ্ন নিয়ে সবাইকে জানাই আন্তরিক শুভ সকাল।"
 ],
-emotional:[
-"কিছু মানুষ জীবনে আসে, কিছু স্মৃতি রেখে যায়। সময় চলে যায়, কিন্তু স্মৃতিগুলো থেকে যায়। ❤️",
-"সব হাসির পেছনে আনন্দ থাকে না, কিছু হাসি শুধু অন্যকে ভালো রাখার জন্য।",
-"জীবনে সবাই পাশে থাকবে না, তাই নিজের সাহসটুকু ধরে রাখতে শিখুন।"
+
+emotion:[
+"কিছু অনুভূতি কাউকে বোঝানো যায় না, শুধু নিজের মনেই জমিয়ে রাখতে হয়। ❤️",
+"সবাই হাসিমুখ দেখে, কিন্তু সেই হাসির পেছনের গল্প সবাই জানে না।",
+"জীবনে কিছু মানুষ স্মৃতি হয়ে থাকে, কিন্তু তাদের দেওয়া শিক্ষা সারাজীবন থেকে যায়।",
+"সবসময় শক্ত থাকার অভিনয় করতে করতে মানুষ কখনো কখনো নিজের কাছেই ক্লান্ত হয়ে যায়।"
 ],
-motivational:[
-"স্বপ্ন পূরণ করতে হলে ধৈর্য ধরতে হয়। আজকের ছোট্ট প্রচেষ্টাই আগামী দিনের সফলতা।",
-"হাল ছেড়ে দেওয়া কোনো সমাধান নয়। চেষ্টা চালিয়ে যান, ইনশাআল্লাহ ভালো কিছু হবে।",
-"নিজেকে প্রতিদিন একটু একটু করে উন্নত করুন। সফলতা একদিন আসবেই।"
+
+motivation:[
+"আজকের ছোট্ট চেষ্টা আগামী দিনের বড় সফলতার কারণ হতে পারে। তাই থেমে যেও না।",
+"সময়কে মূল্য দিতে শেখো। কারণ হারানো সময় কখনো ফিরে আসে না।",
+"নিজের স্বপ্নের প্রতি বিশ্বাস রাখো এবং প্রতিদিন একটু একটু করে এগিয়ে যাও।",
+"ব্যর্থতা শেষ নয়, বরং নতুন কিছু শেখার সুযোগ।"
 ],
+
 life:[
-"জীবন খুব ছোট। তাই মানুষের সঙ্গে ভালো ব্যবহার করুন, কাউকে কষ্ট দিয়ে নয়, ভালোবাসা দিয়ে জয় করুন।",
 "টাকা দিয়ে অনেক কিছু কেনা যায়, কিন্তু মানুষের বিশ্বাস ও ভালোবাসা কেনা যায় না।",
-"সময় মানুষকে অনেক কিছু শেখায়। তাই প্রতিটি অভিজ্ঞতা থেকে শিক্ষা নিন।"
+"মানুষকে সম্মান দিতে শেখো। কারণ সুন্দর ব্যবহার মানুষের সবচেয়ে বড় পরিচয়।",
+"জীবন থেকে পাওয়া প্রতিটি অভিজ্ঞতা আমাদের নতুন কিছু শেখায়।",
+"সময় বদলায়, মানুষ বদলায়, কিন্তু ভালো কাজের স্মৃতি থেকে যায়।"
+],
+
+afternoon:[
+"শুভ দুপুর! সবার দুপুর কাটুক শান্তি, আনন্দ ও ভালোবাসায়। ☀️",
+"ব্যস্ত জীবনের মাঝে একটু বিশ্রাম নিন। নিজের যত্ন নিন, ভালো থাকুন।",
+"আলহামদুলিল্লাহ, আরেকটি সুন্দর দুপুর উপহার দেওয়ার জন্য মহান আল্লাহর প্রতি কৃতজ্ঞতা।"
+],
+
+night:[
+"শুভ রাত্রি! সারাদিনের সব ক্লান্তি ভুলে শান্তিতে ঘুমিয়ে পড়ুন। আল্লাহ সবাইকে হেফাজত করুন। 🌙",
+"রাতের নীরবতায় নিজের ভুলগুলো নিয়ে ভাবুন, আগামীকাল আরও ভালো মানুষ হওয়ার চেষ্টা করুন।",
+"দিন শেষে আল্লাহর কাছে শুকরিয়া আদায় করুন। আগামীকাল কেমন হবে, তা একমাত্র তিনিই জানেন।"
 ]
+
 };
 
-function generate(){
-const type=document.getElementById("type").value;
-let category=type;
+let currentPost="";
+
+function makePost(){
+
+let type=document.getElementById("category").value;
+
 if(type==="all"){
-const keys=Object.keys(posts);
-category=keys[Math.floor(Math.random()*keys.length)];
+let keys=Object.keys(data);
+type=keys[Math.floor(Math.random()*keys.length)];
 }
-const list=posts[category];
-const text=list[Math.floor(Math.random()*list.length)];
-const hashtags="\n\n#AlAmin #বাংলা_পোস্ট #জীবনের_কথা";
-document.getElementById("post").value=text+hashtags;
-saveHistory(text);
+
+let list=data[type];
+
+let selected=list[Math.floor(Math.random()*list.length)];
+
+let tags=[
+"#AlAmin #বাংলা_পোস্ট #জীবনের_কথা",
+"#ইসলামিক_পোস্ট #আলহামদুলিল্লাহ",
+"#শুভ_সকাল #ভালো_থাকুন",
+"#জীবন #অনুপ্রেরণা"
+];
+
+let tag=tags[Math.floor(Math.random()*tags.length)];
+
+currentPost=selected+"\n\n"+tag;
+
+document.getElementById("post").value=currentPost;
+
+saveHistory(currentPost);
+
 }
 
 function copyPost(){
-const box=document.getElementById("post");
-if(!box.value){alert("আগে পোস্ট তৈরি করুন");return;}
+
+let text=document.getElementById("post").value;
+
+if(!text){
+alert("আগে পোস্ট তৈরি করুন");
+return;
+}
+
+if(navigator.clipboard){
+navigator.clipboard.writeText(text)
+.then(()=>alert("পোস্ট কপি হয়েছে!"));
+}else{
+let box=document.getElementById("post");
 box.select();
-navigator.clipboard.writeText(box.value)
-.then(()=>alert("পোস্ট কপি হয়েছে!"))
-.catch(()=>alert("পোস্টটি সিলেক্ট করে Copy করুন।"));
+document.execCommand("copy");
+alert("পোস্ট কপি হয়েছে!");
+}
+
 }
 
 function saveHistory(text){
-let history=JSON.parse(localStorage.getItem("posts")||"[]");
-history.unshift(text);
-history=history.slice(0,20);
-localStorage.setItem("posts",JSON.stringify(history));
+
+let old=JSON.parse(localStorage.getItem("alamin_posts")||"[]");
+
+old.unshift({
+text:text,
+date:new Date().toLocaleString("bn-BD")
+});
+
+localStorage.setItem("alamin_posts",JSON.stringify(old.slice(0,30)));
+
 showHistory();
+
 }
 
 function showHistory(){
-const history=JSON.parse(localStorage.getItem("posts")||"[]");
-document.getElementById("history").innerHTML=
-history.length?history.map(x=>"<p>"+x+"</p><hr>").join(""):"এখনো কোনো পোস্ট তৈরি হয়নি।";
+
+let old=JSON.parse(localStorage.getItem("alamin_posts")||"[]");
+
+let box=document.getElementById("history");
+
+if(old.length===0){
+box.innerHTML="এখনো কোনো পোস্ট তৈরি হয়নি।";
+return;
 }
+
+box.innerHTML=old.map(item=>
+`<div class="history">
+<p>${escapeHTML(item.text)}</p>
+<small>${escapeHTML(item.date)}</small>
+</div>`
+).join("");
+
+}
+
+function escapeHTML(text){
+return text.replace(/[&<>"']/g,function(c){
+return {
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[c];
+});
+}
+
+function clearHistory(){
+if(confirm("সব ইতিহাস মুছে ফেলবেন?")){
+localStorage.removeItem("alamin_posts");
 showHistory();
+}
+}
+
+function makeImage(){
+
+let text=document.getElementById("post").value;
+
+if(!text){
+alert("আগে পোস্ট তৈরি করুন");
+return;
+}
+
+let canvas=document.getElementById("canvas");
+let ctx=canvas.getContext("2d");
+
+ctx.fillStyle="#123b43";
+ctx.fillRect(0,0,1080,1080);
+
+ctx.fillStyle="#e8fff2";
+ctx.textAlign="center";
+
+ctx.font="bold 55px sans-serif";
+ctx.fillText("আলহামদুলিল্লাহ",540,180);
+
+ctx.font="45px sans-serif";
+
+let words=text.split("");
+let lines=[];
+let line="";
+
+for(let word of words){
+if(line.length>24){
+lines.push(line);
+line="";
+}
+line+=word;
+}
+
+if(line)lines.push(line);
+
+lines.slice(0,12).forEach((l,i)=>{
+ctx.fillText(l,540,350+i*65);
+});
+
+ctx.font="bold 40px sans-serif";
+ctx.fillStyle="#64e7ad";
+ctx.fillText("Al Amin Personal AI",540,950);
+
+canvas.style.display="block";
+
+}
+
+function downloadImage(){
+
+let canvas=document.getElementById("canvas");
+
+if(canvas.style.display==="none"){
+alert("আগে ছবি তৈরি করুন");
+return;
+}
+
+let link=document.createElement("a");
+link.download="Al-Amin-Post.png";
+link.href=canvas.toDataURL("image/png");
+link.click();
+
+}
+
+function enableReminder(){
+
+if(!("Notification" in window)){
+alert("এই ব্রাউজারে নোটিফিকেশন সুবিধা পাওয়া যাচ্ছে না।");
+return;
+}
+
+Notification.requestPermission().then(permission=>{
+if(permission==="granted"){
+alert("অনুমতি দেওয়া হয়েছে। ওয়েবসাইট খোলা থাকলে রিমাইন্ডার কাজ করবে।");
+}else{
+alert("নোটিফিকেশনের অনুমতি পাওয়া যায়নি।");
+}
+});
+
+}
+
+function checkSchedule(){
+
+let now=new Date();
+let h=now.getHours();
+let m=now.getMinutes();
+
+let times={
+7:"সকালের পোস্ট তৈরি করার সময় হয়েছে!",
+13:"দুপুরের পোস্ট তৈরি করার সময় হয়েছে!",
+20:"রাতের পোস্ট তৈরি করার সময় হয়েছে!"
+};
+
+if(m===0 && times[h]){
+
+let key="alamin_reminder_"+now.toDateString()+"_"+h;
+
+if(!localStorage.getItem(key)){
+
+localStorage.setItem(key,"yes");
+
+if(Notification.permission==="granted"){
+new Notification("Al Amin AI Poster",{
+body:times[h]
+});
+}else{
+alert(times[h]);
+}
+
+}
+
+}
+
+}
+
+showHistory();
+
+setInterval(checkSchedule,30000);
+
 </script>
+
 </body>
 </html>
